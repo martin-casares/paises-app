@@ -13,4 +13,10 @@ export default defineConfig({
       },
     },
   },
+  base: "/",
+  // Configuración para Vercel
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
 });

@@ -42,7 +42,7 @@ const Continentes = () => {
         if (!response.ok) throw new Error("Error al cargar países");
         const data = await response.json();
 
-        // Guardamos una copia con los datos originales para filtrado
+        // Guarda una copia con los datos originales para filtrado
         setPaisesOriginales(data);
 
         // Creamos versión traducida para mostrar
@@ -180,22 +180,6 @@ const Continentes = () => {
     setPaginaActual(1);
   }, [continenteSeleccionado, busqueda]);
 
-  // Filtrar paises
-  /* const paisesFiltrados = paises.filter((pais) => {
-   *   const pasaContinente =
-   *     continenteSeleccionado === "all" ||
-   *     pais.region === continenteSeleccionado;
-   *   if (!busqueda) return pasaContinente;
-
-   *   const termino = busqueda.toLowerCase();
-   *   const nombre = pais.name.common.toLowerCase();
-   *   const capital = pais.capital?.[0]?.toLowerCase() || "";
-
-   *   return (
-   *     pasaContinente && (nombre.includes(termino) || capital.includes(termino))
-   *   );
-   * }); */
-
   // Calcular paginación
   const indiceInicial = (paginaActual - 1) * ITEMS_POR_PAGINA;
   const indiceFinal = indiceInicial + ITEMS_POR_PAGINA;
@@ -210,8 +194,6 @@ const Continentes = () => {
     setPaginaActual(pagina);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  //const continentes = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
 
   return (
     <div className="container mx-auto p-4">
