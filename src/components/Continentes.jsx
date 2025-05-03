@@ -197,91 +197,97 @@ const Continentes = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {/* Filtros */}
+      {/* Filtros - Contenedor modificado */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Filtrar por continente</h2>
-        <div className="flex flex-wrap gap-2 mb-4">
-          <button
-            onClick={() => setContinenteSeleccionado("all")}
-            className={`px-4 py-2 rounded-md ${
-              continenteSeleccionado === "all"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200"
-            }`}
-          >
-            Todos
-          </button>
-          {continentes.map((continente) => {
-            const traduccion = traducirRegion(continente).traduccion;
-            return (
+        <div className="flex flex-col lg:flex-row lg:items-end gap-4">
+          {/* Contenedor de botones de continente */}
+          <div>
+            <h2 className="text-xl font-semibold mb-2 lg:mb-3">
+              Filtrar por continente
+            </h2>
+            <div className="flex flex-wrap gap-2">
               <button
-                key={continente}
-                onClick={() => setContinenteSeleccionado(continente)}
+                onClick={() => setContinenteSeleccionado("all")}
                 className={`px-4 py-2 rounded-md ${
-                  continenteSeleccionado === continente
+                  continenteSeleccionado === "all"
                     ? "bg-blue-600 text-white"
                     : "bg-gray-200"
                 }`}
-                title={traduccion} // Tooltip con la traducción
               >
-                {traduccion}
+                Todos
               </button>
-            );
-          })}
-        </div>
-
-        {/* Búsqueda */}
-        <div className="relative">
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Buscar país o capital..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            onFocus={() => setMostrarSugerencias(true)}
-            onBlur={() => setTimeout(() => setMostrarSugerencias(false), 200)}
-            onKeyDown={handleKeyDown}
-            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
-          />
-
-          {/* Sugerencias */}
-          {mostrarSugerencias && sugerencias.length > 0 && (
-            <div
-              ref={sugerenciasRef}
-              className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
-            >
-              {sugerencias.map((pais, index) => (
-                <div
-                  key={pais.cca3}
-                  className={`p-3 hover:bg-blue-50 cursor-pointer flex items-center gap-3 ${
-                    index === sugerenciaActiva ? "bg-blue-100" : ""
-                  }`}
-                  onClick={() => handleSeleccionSugerencia(pais)}
-                  onMouseEnter={() => setSugerenciaActiva(index)}
-                >
-                  <img
-                    src={pais.flags.svg}
-                    alt={`Bandera de ${pais.name.common}`}
-                    className="w-8 h-6 object-cover border border-gray-200"
-                  />
-                  <div>
-                    <div className="font-medium">
-                      {resaltarTexto(pais.name.common)}
-                    </div>
-                    {pais.capital && (
-                      <div className="text-sm text-gray-600">
-                        Capital: {resaltarTexto(pais.capital[0])}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+              {continentes.map((continente) => {
+                const traduccion = traducirRegion(continente).traduccion;
+                return (
+                  <button
+                    key={continente}
+                    onClick={() => setContinenteSeleccionado(continente)}
+                    className={`px-4 py-2 rounded-md ${
+                      continenteSeleccionado === continente
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200"
+                    }`}
+                    title={traduccion}
+                  >
+                    {traduccion}
+                  </button>
+                );
+              })}
             </div>
-          )}
+          </div>
+
+          {/* Búsqueda - Ahora en el mismo nivel flex */}
+          <div className="relative w-full lg:w-auto lg:flex-1">
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Buscar país o capital..."
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              onFocus={() => setMostrarSugerencias(true)}
+              onBlur={() => setTimeout(() => setMostrarSugerencias(false), 200)}
+              onKeyDown={handleKeyDown}
+              className="w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+            />
+
+            {mostrarSugerencias && sugerencias.length > 0 && (
+              <div
+                ref={sugerenciasRef}
+                className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
+              >
+                {sugerencias.map((pais, index) => (
+                  <div
+                    key={pais.cca3}
+                    className={`p-3 hover:bg-blue-50 cursor-pointer flex items-center gap-3 ${
+                      index === sugerenciaActiva ? "bg-blue-100" : ""
+                    }`}
+                    onClick={() => handleSeleccionSugerencia(pais)}
+                    onMouseEnter={() => setSugerenciaActiva(index)}
+                  >
+                    <img
+                      src={pais.flags.svg}
+                      alt={`Bandera de ${pais.name.common}`}
+                      className="w-8 h-6 object-cover border border-gray-200"
+                    />
+                    <div>
+                      <div className="font-medium">
+                        {resaltarTexto(pais.name.common)}
+                      </div>
+                      {pais.capital && (
+                        <div className="text-sm text-gray-600">
+                          Capital: {resaltarTexto(pais.capital[0])}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Resultados */}
+      {/* Resultados (se mantiene igual) */}
       {cargando ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
@@ -313,7 +319,7 @@ const Continentes = () => {
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {paisesPagina.map((pais) => (
                   <PaisCard key={pais.cca3} pais={pais} />
                 ))}
@@ -322,7 +328,6 @@ const Continentes = () => {
               {totalPaginas > 1 && (
                 <div className="flex justify-center mt-8">
                   <nav className="flex items-center gap-1">
-                    {/* Botón Anterior */}
                     <button
                       onClick={() => cambiarPagina(paginaActual - 1)}
                       disabled={paginaActual === 1}
@@ -331,7 +336,6 @@ const Continentes = () => {
                       &lt;
                     </button>
 
-                    {/* Primera página */}
                     {paginaActual > 3 && (
                       <>
                         <button
@@ -344,7 +348,6 @@ const Continentes = () => {
                       </>
                     )}
 
-                    {/* Páginas cercanas */}
                     {Array.from(
                       { length: Math.min(5, totalPaginas) },
                       (_, i) => {
@@ -375,7 +378,6 @@ const Continentes = () => {
                       },
                     )}
 
-                    {/* Última página */}
                     {paginaActual < totalPaginas - 2 && (
                       <>
                         {paginaActual < totalPaginas - 3 && (
@@ -390,7 +392,6 @@ const Continentes = () => {
                       </>
                     )}
 
-                    {/* Botón Siguiente */}
                     <button
                       onClick={() => cambiarPagina(paginaActual + 1)}
                       disabled={paginaActual === totalPaginas}
