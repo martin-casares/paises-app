@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
-      <main className="py-8">
+      <main className="py-8 mb-8">
         <Continentes />
       </main>
       <footer className="bg-gray-800 text-white p-4 text-center fixed bottom-0 left-0 right-0">
